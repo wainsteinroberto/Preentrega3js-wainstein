@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Productos</title>
+    <script>
+        // Lista de productos disponibles
+        const productos = [
+            { nombre: "Cerveza", precio: 5, alcohol: true },
+            { nombre: "Vodka", precio: 15, alcohol: true },
+            { nombre: "Vino", precio: 12, alcohol: true },
+            { nombre: "Agua", precio: 2, alcohol: false },
+            { nombre: "Jugo", precio: 3, alcohol: false },
+            { nombre: "Soda", precio: 4, alcohol: false },
+            { nombre: "Leche", precio: 2.5, alcohol: false },
+            { nombre: "Café", precio: 4.5, alcohol: false },
+            { nombre: "Té", precio: 3.5, alcohol: false },
+            { nombre: "Chocolate caliente", precio: 6, alcohol: false }
+        ];
+
+        let total = 0;
+        let productosSeleccionados = [];
+
+        // Función para elegir productos y cantidades
+        function elegirProducto() {
+            for (let i = 0; i < 3; i++) {
+                // Preguntar por el producto
+                let seleccion = prompt("Elige el producto " + (i + 1) + " entre 1 y 10:\n" +
+                    productos.map((prod, index) => (index + 1) + ". " + prod.nombre + " - $" + prod.precio).join("\n"));
+
+                let productoSeleccionado = productos[seleccion - 1];
+
+                if (productoSeleccionado.alcohol) {
+                    let esMayorDeEdad = confirm("Has seleccionado un producto con alcohol. ¿Eres mayor de 18 años?");
+                    if (!esMayorDeEdad) {
+                        alert("No puedes comprar productos con alcohol.");
+                        return;  // Si no es mayor de edad, termina el proceso
+                    }
+                }
+
+                // Preguntar por la cantidad
+                let cantidad = prompt("¿Cuántas unidades de " + productoSeleccionado.nombre + " quieres comprar?");
+                cantidad = parseInt(cantidad);
+
+                // Calcular el costo total del producto seleccionado
+                let subtotal = productoSeleccionado.precio * cantidad;
+                productosSeleccionados.push({ nombre: productoSeleccionado.nombre, cantidad: cantidad, subtotal: subtotal });
+                total += subtotal;
+            }
+
+            mostrarTotal();
+        }
+
+        // Función para mostrar el total
+        function mostrarTotal() {
+            let productosTexto = productosSeleccionados.map(prod => prod.cantidad + " x " + prod.nombre + " ($" + prod.subtotal + ")").join(", ");
+            alert("Has seleccionado: " + productosTexto + ". El total es: $" + total);
+            console.log("Compra realizada: ", productosTexto, " - Total: $", total);
+        }
+    </script>
+</head>
+<body>
+    <h1>Bienvenido a la tienda</h1>
+    <p>Selecciona tres productos para tu compra, indicando la cantidad de cada uno. Si eliges productos con alcohol, debes ser mayor de 18 años.</p>
+    <button onclick="elegirProducto()">Comenzar Compra</button>
+</body>
+</html>
