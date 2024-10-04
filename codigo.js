@@ -1,4 +1,4 @@
-// constriuir de productos
+// Construir de productos
 class Producto {
     constructor(nombre, precio, alcohol) {
         this.nombre = nombre;
@@ -7,7 +7,7 @@ class Producto {
     }
 }
 
-// Creacionn de  productos
+// Creación de productos
 const productos = [
     new Producto("Cerveza", 5, true),
     new Producto("Vodka", 15, true),
@@ -24,24 +24,12 @@ const productos = [
 let total = 0; // Variable global
 let productosSeleccionados = []; // Array global
 
-// Mostrar productos para el  DOM
-const mostrarProductos = () => {
-    const productosDiv = document.getElementById('productos');
-    productosDiv.innerHTML = ""; // Limpiar contenido previo
-    productos.forEach((producto, index) => {
-        const div = document.createElement('div');
-        div.classList.add('producto');
-        div.innerHTML = `${producto.nombre} - $${producto.precio}`;
-        productosDiv.appendChild(div);
-    });
-};
-
-// Funcion para buscar  producto por nombre
+// Función para buscar producto por nombre
 const buscarProducto = (nombre) => {
     return productos.find(producto => producto.nombre.toLowerCase() === nombre.toLowerCase());
 };
 
-// Funcion para buscar y mostrar un producto
+// Función para buscar y mostrar un producto
 const buscarYMostrarProducto = () => {
     let nombreBusqueda = prompt("Ingresa el nombre del producto que deseas buscar:");
     if (nombreBusqueda === null || nombreBusqueda.trim() === "") {
@@ -57,7 +45,7 @@ const buscarYMostrarProducto = () => {
     }
 };
 
-// Funcion para filtrar productos por categoria
+// Función para filtrar productos por categoría
 const filtrarProductos = (categoria) => {
     if (categoria === "alcohol") {
         return productos.filter(producto => producto.alcohol);
@@ -68,7 +56,7 @@ const filtrarProductos = (categoria) => {
     }
 };
 
-// Funcion para mostrar productos filtrados
+// Función para mostrar productos filtrados
 const mostrarProductosFiltrados = () => {
     let categoria = prompt("¿Qué categoría deseas ver? (alcohol / no-alcohol / todo)");
     if (categoria === null || categoria.trim() === "") {
@@ -87,16 +75,16 @@ const mostrarProductosFiltrados = () => {
     }
 };
 
-// Funcion para manejar la compra usando prompt()
+// Función para manejar la compra usando prompt()
 const realizarCompra = () => {
     total = 0; // Reiniciar total
-    productosSeleccionados = []; // Reiniciar seleccion
+    productosSeleccionados = []; // Reiniciar selección
 
-    productos.forEach((producto, index) => {
+    productos.forEach((producto) => {
         let cantidadStr = prompt(`¿Cuántas unidades de ${producto.nombre} deseas comprar?`, "0");
         // Validar la entrada
         if (cantidadStr === null) {
-            // cancelar  prompt
+            // cancelar prompt
             return;
         }
 
@@ -107,7 +95,7 @@ const realizarCompra = () => {
         }
 
         if (cantidad > 0) {
-            // Verificacion de edad 
+            // Verificación de edad 
             if (producto.alcohol) {
                 let esMayor = confirm("Has seleccionado un producto con alcohol. ¿Eres mayor de 18 años?");
                 if (!esMayor) {
@@ -116,7 +104,7 @@ const realizarCompra = () => {
                 }
             }
 
-            // cuenta  subtotal
+            // Cuenta subtotal
             const subtotal = producto.precio * cantidad;
             productosSeleccionados.push({ nombre: producto.nombre, cantidad: cantidad, subtotal: subtotal });
             total += subtotal;
@@ -135,34 +123,30 @@ const mostrarTotal = () => {
 
     let productosTexto = productosSeleccionados.map(prod => `${prod.cantidad} x ${prod.nombre} ($${prod.subtotal.toFixed(2)})`).join(", ");
     alert(`Has seleccionado: ${productosTexto}. El total es: $${total.toFixed(2)}`);
-    document.getElementById('total').innerText = `Total a pagar: $${total.toFixed(2)}`;
     console.log("Compra realizada:", productosTexto, " - Total: $", total.toFixed(2));
 };
 
 // Inicializar la aplicación
 const iniciarCompra = () => {
-    mostrarProductos();
-    realizarCompra();
+    // Pregunta al usuario si quiere buscar, filtrar o realizar una compra
+    let opcion = prompt("¿Qué deseas hacer? (comprar / buscar / filtrar / salir)");
 
-    // Opcional: Permitir al usuario buscar o filtrar despues de la compra
-    let deseaContinuar = confirm("¿Deseas realizar otra acción?");
-    while (deseaContinuar) {
-        let accion = prompt("¿Qué deseas hacer? (buscar / filtrar / salir)").toLowerCase().trim();
-
-        if (accion === "buscar") {
+    while (opcion !== null && opcion.toLowerCase() !== "salir") {
+        if (opcion.toLowerCase() === "comprar") {
+            realizarCompra();
+        } else if (opcion.toLowerCase() === "buscar") {
             buscarYMostrarProducto();
-        } else if (accion === "filtrar") {
+        } else if (opcion.toLowerCase() === "filtrar") {
             mostrarProductosFiltrados();
-        } else if (accion === "salir") {
-            alert("Gracias por tu compra. ¡Hasta luego!");
-            break;
         } else {
-            alert("Acción no reconocida. Por favor, elige 'buscar', 'filtrar' o 'salir'.");
+            alert("Opción no reconocida. Por favor, elige 'comprar', 'buscar', 'filtrar' o 'salir'.");
         }
 
-        deseaContinuar = confirm("¿Deseas realizar otra acción?");
+        opcion = prompt("¿Qué deseas hacer? (comprar / buscar / filtrar / salir)");
     }
+
+    alert("Gracias por tu compra. ¡Hasta luego!");
 };
 
-// Ejecutar la compra cuando se carga la pagina
+// Ejecutar la compra cuando se carga la página
 window.onload = iniciarCompra;
