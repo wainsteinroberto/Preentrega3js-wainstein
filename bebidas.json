@@ -1,0 +1,20 @@
+[
+    {
+        "nombre": "Cerveza",
+        "precio": 5,
+        "alcohol": true,
+        "categoria": "Alcohólicas"
+    },
+    {
+        "nombre": "Vodka",
+        "precio": 15,
+        "alcohol": true,
+        "categoria": "Alcohólicas"
+    },
+    {
+        "nombre": "Agua",
+        "precio": 2,
+        "alcohol": false,
+        "categoria": "No Alcohólicas"
+    }
+]
